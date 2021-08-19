@@ -21,7 +21,7 @@ import ru.dgis.sdk.routing.RouteSearchPoint
 class MainActivity : AppCompatActivity(), TouchEventsObserver {
     private lateinit var sdkContext: Context
     private lateinit var map: Map
-    private lateinit var navigator: NavigationManager
+    private var navigator: NavigationManager? = null
     private val closeables = mutableListOf<AutoCloseable>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,10 +67,14 @@ class MainActivity : AppCompatActivity(), TouchEventsObserver {
     }
 
     private fun startNavigation(targetPosition: GeoPoint) {
-        navigator = NavigationManager(sdkContext, listOf(map))
-        navigator.start(RouteSearchPoint(targetPosition), RouteOptions())
-        closeables += navigator.uiModel.maxSpeedLimitChannel.connect {
-            Log.w("APP", "maxSpeed: $it")
+        if (navigator == null) {
+            navigator = NavigationManager(sdkContext, listOf(map))
+        }
+        navigator!!.apply {
+            start(RouteSearchPoint(targetPosition), RouteOptions())
+            closeables += uiModel.maxSpeedLimitChannel.connect {
+                Log.w("APP", "maxSpeed: $it")
+            }
         }
     }
 
