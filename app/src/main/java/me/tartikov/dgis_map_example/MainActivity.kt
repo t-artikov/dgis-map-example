@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity(), TouchEventsObserver {
             map = it
             map.addSource(
                 MyLocationMapObjectSource(sdkContext,
-                    MyLocationDirectionBehaviour.FOLLOW_SATELLITE_HEADING)
+                    MyLocationDirectionBehaviour.FOLLOW_SATELLITE_HEADING,
+                    createSmoothMyLocationController())
             )
             map.setAttribute("navigatorOn", AttributeValue(true))
             mapView.setTouchEventsObserver(this)
