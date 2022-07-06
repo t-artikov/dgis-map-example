@@ -3,17 +3,6 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.localProperties = new Properties()
-ext.localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
-def getLocalProperty(String name) {
-    def value = localProperties.getProperty(name)
-    if (value == null) {
-        throw new RuntimeException("'$name' should be specified in local.properties")
-    }
-    return value
-}
-
 android {
     compileSdk 30
 
@@ -25,7 +14,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "DGIS_MAP_API_KEY", getLocalProperty("dgisMapApiKey"))
     }
 
     buildTypes {
@@ -59,7 +47,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    implementation 'ru.dgis.sdk:sdk-map:latest.release'
+    implementation 'ru.dgis.sdk:sdk-map:4.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
